@@ -56,79 +56,75 @@
 
   <div id="wheel"></div>
 
-  <button class="btn" onclick="spin()">Крутити (1 білет)</button>
-  <button class="btn" onclick="buyTicket()">Купити білет (30 грн)</button>
+  <button class="btn" id="spinBtn">Крутити (1 білет)</button>
+  <button class="btn" id="buyBtn">Купити білет (30 грн)</button>
   <input id="promo" placeholder="Введіть промокод" />
-  <button class="btn" onclick="redeemPromo()">Активувати промокод</button>
+  <button class="btn" id="promoBtn">Активувати промокод</button>
 
   <p id="result"></p>
   <p id="tickets">Ваші білети: 0</p>
 
   <script>
-    // ⚙️ Параметри
     let tickets = 0;
     const telegramBotToken = 'ТВОЙ_ТОКЕН_БОТА';
-    const telegramChatId = 'ID_ГРУПИ'; // Наприклад: -1001234567890
+    const telegramChatId = 'ID_ГРУПИ';
     const promoCodes = {
       'FREE15': 1,
       'STARS25': 2,
-      'MEGABONUS': 5,
+      'MEGABONUS': 5
     };
 
     const wheel = document.getElementById('wheel');
     const result = document.getElementById('result');
     const ticketDisplay = document.getElementById('tickets');
 
-    function updateTickets() {
+    const updateTickets = () => {
       ticketDisplay.textContent = `Ваші білети: ${tickets}`;
-    }
+    };
 
-    function sendToTelegram(message) {
+    const sendToTelegram = (message) => {
       fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: telegramChatId,
-          text: message,
-        }),
+          text: message
+        })
       });
-    }
+    };
 
-    function buyTicket() {
+    document.getElementById('buyBtn').addEventListener('click', () => {
       tickets++;
       updateTickets();
       result.textContent = '💸 Очікуйте... Після оплати білет буде активований (тест режим)';
-      sendToTelegram("🔔 Хтось натиснув кнопку \"Купити білет (30 грн)\"");
-    }
+      sendToTelegram("🔔 Хтось натиснув кнопку 'Купити білет (30 грн)'");
+    });
 
-    function redeemPromo() {
+    document.getElementById('promoBtn').addEventListener('click', () => {
       const code = document.getElementById('promo').value.trim().toUpperCase();
       if (promoCodes[code]) {
         tickets += promoCodes[code];
         result.textContent = `🎁 Ви активували промокод "${code}" і отримали ${promoCodes[code]} білет(и)!`;
-        delete promoCodes[code]; // одноразовий
+        delete promoCodes[code];
         updateTickets();
       } else {
         result.textContent = "❌ Невірний або використаний промокод.";
       }
-    }
+    });
 
-    function spin() {
+    document.getElementById('spinBtn').addEventListener('click', () => {
       if (tickets <= 0) {
         result.textContent = "😢 У вас немає білетів.";
         return;
       }
-
       tickets--;
       updateTickets();
-
-      const rotation = 3600 + Math.floor(Math.random() * 360); // повне обертання + випадкове
+      const rotation = 3600 + Math.floor(Math.random() * 360);
       wheel.style.transform = `rotate(${rotation}deg)`;
 
       setTimeout(() => {
         const chance = Math.random() * 100;
         let prize = '';
-
         if (chance < 35) prize = '15 зірок';
         else if (chance < 60) prize = '25 зірок';
         else if (chance < 70) prize = '50 зірок';
@@ -140,7 +136,7 @@
 
         sendToTelegram(`🎰 Користувач покрутив рулетку та виграв: ${prize}`);
       }, 4000);
-    }
+    });
   </script>
 </body>
 </html>
