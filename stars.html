@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Купити зірки - Starsium Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      color: gold;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+      width: 90%;
+      max-width: 400px;
+    }
+    button {
+      background: #1e1e2f;
+      border: 2px solid gold;
+      color: white;
+      padding: 1rem;
+      border-radius: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: gold;
+      color: black;
+    }
+    .option-button {
+      background: #24243e;
+      border: 1px solid #888;
+      border-radius: 0.75rem;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .option-button:hover {
+      background: #444;
+    }
+    .input-container {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .input-container input {
+      padding: 1rem;
+      border: 2px solid gold;
+      border-radius: 1rem;
+      color: white;
+      background: #1e1e2f;
+      font-size: 1.2rem;
+    }
+    .input-container button {
+      background: #1e1e2f;
+      border: 2px solid gold;
+      color: white;
+      padding: 1rem;
+      border-radius: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .input-container button:hover {
+      background: gold;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Купити зірки</h1>
+  </header>
+
+  <div class="buttons">
+    <button onclick="window.location.href='index.html'">⬅️ Повернутись в меню</button>
+  </div>
+
+  <div class="section">
+    <h2>Обери кількість зірок</h2>
+    <div class="options">
+      <div class="option-button" onclick="selectStars('50⭐')">50⭐ – 45 грн</div>
+      <div class="option-button" onclick="selectStars('100⭐')">100⭐ – 85 грн</div>
+      <div class="option-button" onclick="selectStars('200⭐')">200⭐ – 170 грн</div>
+      <div class="option-button" onclick="selectStars('300⭐')">300⭐ – 250 грн</div>
+      <div class="option-button" onclick="selectStars('400⭐')">400⭐ – 330 грн</div>
+      <div class="option-button" onclick="selectStars('500⭐')">500⭐ – 400 грн</div>
+      <div class="option-button" onclick="selectStars('600⭐')">600⭐ – 480 грн</div>
+      <div class="option-button" onclick="selectStars('800⭐')">800⭐ – 640 грн</div>
+      <div class="option-button" onclick="selectStars('900⭐')">900⭐ – 700 грн</div>
+      <div class="option-button" onclick="selectStars('1000⭐')">1000⭐ – 800 грн</div>
+      <div class="option-button" onclick="toggleCustomInput()">🔢 Ввести власну кількість</div>
+    </div>
+    <div class="input-container" id="custom-quantity" style="display: none;">
+      <label for="custom-amount">Введіть власну кількість зірок:</label>
+      <input type="number" id="custom-amount" placeholder="Кількість зірок" />
+      <button onclick="selectStarsCustom()">Підтвердити</button>
+    </div>
+    <div class="input-container">
+      <label for="username">Введіть ваш Telegram юзернейм:</label>
+      <input type="text" id="username" placeholder="Наприклад: @username" />
+      <button onclick="submitOrder()">Підтвердити замовлення</button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Starsium. Всі права захищено.
+  </footer>
+
+  <script>
+    let selectedStars = '';
+    let selectedPrice = 0;
+
+    function selectStars(stars) {
+      selectedStars = stars;
+      selectedPrice = getPrice(stars);
+      document.getElementById('custom-quantity').style.display = 'none';
+      alert(`Ви вибрали: ${stars}. Ціна: ${selectedPrice} грн`);
+    }
+
+    function getPrice(stars) {
+      switch (stars) {
+        case '50⭐':
+          return 45;
+        case '100⭐':
+          return 85;
+        case '200⭐':
+          return 170;
+        case '300⭐':
+          return 250;
+        case '400⭐':
+          return 330;
+        case '500⭐':
+          return 400;
+        case '600⭐':
+          return 480;
+        case '800⭐':
+          return 640;
+        case '900⭐':
+          return 700;
+        case '1000⭐':
+          return 800;
+        default:
+          return 0;
+      }
+    }
+
+    function toggleCustomInput() {
+      const customInput = document.getElementById('custom-quantity');
+      customInput.style.display = customInput.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function selectStarsCustom() {
+      const customAmount = document.getElementById('custom-amount').value;
+      if (!customAmount || customAmount <= 0) {
+        alert('Будь ласка, введіть правильну кількість зірок.');
+        return;
+      }
+      selectedStars = `${customAmount}⭐`;
+      selectedPrice = customAmount * 0.9; // Розрахунок ціни, якщо це власна кількість
+      alert(`Ви вибрали: ${selectedStars}.`);
+    }
+
+    function submitOrder() {
+      const username = document.getElementById('username').value;
+      if (username.trim() === '') {
+        alert('Будь ласка, введіть ваш Telegram юзернейм!');
+        return;
+      }
+      sendToTelegram(username);
+      alert(`Замовлення підтверджено! З вами зв'яжуться через Telegram: ${username}`);
+    }
+
+    function sendToTelegram(username) {
+      const message = `Нове замовлення:
+        Зірки: ${selectedStars}
+        Ціна: ${selectedPrice} грн
+        Telegram юзернейм: ${username}`;
+      
+      const token = '7891045650:AAEDuF4YzDWqsiqoNy92pCTNDh1wYk2so24'; // Токен вашого бота
+      const chatId = '@fgprivatezamovlenay'; // Ваш chat_id для отримання повідомлень
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`);
+    }
+  </script>
+</body>
+</html>

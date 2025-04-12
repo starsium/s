@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Купити Premium - Starsium Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      color: gold;
+    }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+      width: 90%;
+      max-width: 400px;
+    }
+    button {
+      background: #1e1e2f;
+      border: 2px solid gold;
+      color: white;
+      padding: 1rem;
+      border-radius: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: gold;
+      color: black;
+    }
+    .option-button {
+      background: #24243e;
+      border: 1px solid #888;
+      border-radius: 0.75rem;
+      padding: 0.8rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .option-button:hover {
+      background: #444;
+    }
+    .input-container {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .input-container input {
+      padding: 1rem;
+      border: 2px solid gold;
+      border-radius: 1rem;
+      color: white;
+      background: #1e1e2f;
+      font-size: 1.2rem;
+    }
+    .input-container button {
+      background: #1e1e2f;
+      border: 2px solid gold;
+      color: white;
+      padding: 1rem;
+      border-radius: 1rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .input-container button:hover {
+      background: gold;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Купити Premium</h1>
+  </header>
+
+  <div class="buttons">
+    <button onclick="window.location.href='index.html'">⬅️ Повернутись в меню</button>
+  </div>
+
+  <div class="section">
+    <h2>Обери опцію Premium</h2>
+    <div class="options">
+      <div class="option-button" onclick="selectPremium('3 місяці', 610)">3 місяці – 610 грн</div>
+      <div class="option-button" onclick="selectPremium('6 місяців', 850)">6 місяців – 850 грн</div>
+      <div class="option-button" onclick="selectPremium('1 рік', 1500)">1 рік – 1500 грн</div>
+    </div>
+
+    <div class="input-container">
+      <label for="username">Введіть ваш Telegram юзернейм:</label>
+      <input type="text" id="username" placeholder="Наприклад: @username" />
+      <button onclick="submitPremium()">Підтвердити замовлення</button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Starsium. Всі права захищено.
+  </footer>
+
+  <script>
+    let selectedPremium = '';
+    let selectedPrice = 0;
+
+    function selectPremium(premium, price) {
+      selectedPremium = premium;
+      selectedPrice = price;
+      alert(`Ви вибрали: ${premium}. Ціна: ${price} грн`);
+    }
+
+    function submitPremium() {
+      const username = document.getElementById('username').value;
+      if (username.trim() === '') {
+        alert('Будь ласка, введіть ваш Telegram юзернейм!');
+        return;
+      }
+      sendToTelegram(username);
+      alert(`Замовлення підтверджено! З вами зв'яжуться через Telegram: ${username}`);
+    }
+
+    function sendToTelegram(username) {
+      const message = `Нове замовлення:
+        Premium: ${selectedPremium}
+        Юзернейм: ${username}
+        Ціна: ${selectedPrice} грн`;
+
+      const token = '7891045650:AAEDuF4YzDWqsiqoNy92pCTNDh1wYk2so24'; // Токен вашого бота
+      const chatId = '@fgprivatezamovlenay'; // Ваш chat_id для отримання повідомлень
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`)
+        .then(response => {
+          if (response.ok) {
+            console.log('Повідомлення надіслано');
+          } else {
+            console.error('Помилка при надсиланні');
+          }
+        });
+    }
+  </script>
+</body>
+</html>
